@@ -1,0 +1,2 @@
+create tab_employe(id int,nom varchar(20),prenom varchar(20),heures int heures_s int,salaire int);
+create tab_dapratement(id int,nom_dep varchar(20),nom_chef(20),nbr int);
