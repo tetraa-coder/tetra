@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include "employe.h"
 #include "departement.h"
+#include <QDateTime>
+#include<QTimer>
+
 
 namespace Ui {
 class MainWindow;
@@ -41,11 +44,17 @@ private slots:
     void on_comboBox_currentIndexChanged(const QString &arg1);
 
     void on_pb_afficher_employe_du_mois_clicked();
+    void myfunction();
+
+    void on_pushButton_clicked();
+
+    void on_pb_prime_clicked();
 
 private:
     Ui::MainWindow *ui;
     employe tmp_employe;
     departement tmp_departement;
+     QTimer *timer;
 
 };
 

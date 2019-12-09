@@ -2077,7 +2077,7 @@ PlotWidget {
   padding: 0px;
 }</string>
   </property>
-  <widget class="QWidget" name="centralWidget">
+  <widget class="QWidget" name="centralWidgetmarwen">
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
@@ -2091,9 +2091,9 @@ PlotWidget {
      <string notr="true"/>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>4</number>
     </property>
-    <widget class="QWidget" name="tab">
+    <widget class="QWidget" name="tab_marwen">
      <attribute name="title">
       <string>gestion des employés</string>
      </attribute>
@@ -2112,7 +2112,7 @@ PlotWidget {
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="tab_4">
+      <widget class="QWidget" name="tab_marwen4">
        <attribute name="title">
         <string>ajouter employé</string>
        </attribute>
@@ -2142,7 +2142,7 @@ PlotWidget {
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;id:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_id">
+       <widget class="QLineEdit" name="lineEdit_id_marwen">
         <property name="geometry">
          <rect>
           <x>190</x>
@@ -2207,7 +2207,7 @@ PlotWidget {
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;heures travailler:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_nom">
+       <widget class="QLineEdit" name="lineEdit_nom_marwen">
         <property name="geometry">
          <rect>
           <x>190</x>
@@ -2220,7 +2220,7 @@ PlotWidget {
          <string notr="true"/>
         </property>
        </widget>
-       <widget class="QLineEdit" name="lineEdit_prenom">
+       <widget class="QLineEdit" name="lineEdit_prenom_marwen">
         <property name="geometry">
          <rect>
           <x>190</x>
@@ -2278,7 +2278,7 @@ PlotWidget {
          <string>Ctrl+Z</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_19">
+       <widget class="QLabel" name="label_salaire">
         <property name="geometry">
          <rect>
           <x>400</x>
@@ -2305,7 +2305,7 @@ PlotWidget {
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_5">
+      <widget class="QWidget" name="tab_marwen5">
        <attribute name="title">
         <string>afficher employé</string>
        </attribute>
@@ -2320,7 +2320,7 @@ PlotWidget {
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_6">
+      <widget class="QWidget" name="tab_marwen6">
        <attribute name="title">
         <string>modifier employé</string>
        </attribute>
@@ -2337,7 +2337,7 @@ PlotWidget {
          <string notr="true"/>
         </property>
        </widget>
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="label_id_modif">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -2363,7 +2363,7 @@ PlotWidget {
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="label_nom_modif">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -2376,7 +2376,7 @@ PlotWidget {
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;nom:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="label_prenom_modif">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -2389,7 +2389,7 @@ PlotWidget {
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;prenom:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_5">
+       <widget class="QLabel" name="label_heures_modif">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -2402,7 +2402,7 @@ PlotWidget {
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;heures:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="label_heuress_modif">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -2496,7 +2496,7 @@ PlotWidget {
          <enum>Qt::Vertical</enum>
         </property>
        </widget>
-       <widget class="QLabel" name="label_20">
+       <widget class="QLabel" name="label_salaire_modif">
         <property name="geometry">
          <rect>
           <x>330</x>
@@ -2523,11 +2523,11 @@ PlotWidget {
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_7">
+      <widget class="QWidget" name="tab_marwen_7">
        <attribute name="title">
         <string>supprimer employé</string>
        </attribute>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="label_id_supp">
         <property name="geometry">
          <rect>
           <x>80</x>
@@ -2538,19 +2538,6 @@ PlotWidget {
         </property>
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;id:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="lineEdit_id_supp">
-        <property name="geometry">
-         <rect>
-          <x>120</x>
-          <y>50</y>
-          <width>113</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
         </property>
        </widget>
        <widget class="QPushButton" name="pb_supprimer">
@@ -2567,6 +2554,16 @@ PlotWidget {
         </property>
         <property name="text">
          <string>supprimer</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="comboBox_ps">
+        <property name="geometry">
+         <rect>
+          <x>160</x>
+          <y>50</y>
+          <width>111</width>
+          <height>26</height>
+         </rect>
         </property>
        </widget>
       </widget>
@@ -2586,13 +2583,13 @@ PlotWidget {
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
-      <widget class="QWidget" name="tab_8">
+      <widget class="QWidget" name="tab_marwen_8">
        <attribute name="title">
         <string>ajouter département</string>
        </attribute>
-       <widget class="QLabel" name="label_7">
+       <widget class="QLabel" name="label_nom_dep_7">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -2605,7 +2602,7 @@ PlotWidget {
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;nom du département:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_8">
+       <widget class="QLabel" name="label_id_dep_8">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -2618,7 +2615,7 @@ PlotWidget {
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;id département :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_9">
+       <widget class="QLabel" name="label_chef_9">
         <property name="geometry">
          <rect>
           <x>40</x>
@@ -2631,7 +2628,7 @@ PlotWidget {
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;nom du chef &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;département:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_10">
+       <widget class="QLabel" name="label_nbr_10">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -2726,7 +2723,7 @@ PlotWidget {
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_11">
+      <widget class="QWidget" name="tab_marwen_11">
        <attribute name="title">
         <string>afficher département</string>
        </attribute>
@@ -2741,11 +2738,11 @@ PlotWidget {
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_10">
+      <widget class="QWidget" name="tab_marwen_10">
        <attribute name="title">
         <string>modifier département</string>
        </attribute>
-       <widget class="QLabel" name="label_11">
+       <widget class="QLabel" name="label_marwen11">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -2758,7 +2755,7 @@ PlotWidget {
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;id departement:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="Line" name="line_3">
+       <widget class="Line" name="line_marwen3">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -2771,7 +2768,7 @@ PlotWidget {
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
-       <widget class="QLabel" name="label_12">
+       <widget class="QLabel" name="label_marwen12">
         <property name="geometry">
          <rect>
           <x>50</x>
@@ -2784,7 +2781,7 @@ PlotWidget {
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;nom du département:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_13">
+       <widget class="QLabel" name="label_marwen13">
         <property name="geometry">
          <rect>
           <x>50</x>
@@ -2797,7 +2794,7 @@ PlotWidget {
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;nom du chef :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_14">
+       <widget class="QLabel" name="label_marwen14">
         <property name="geometry">
          <rect>
           <x>50</x>
@@ -2810,7 +2807,7 @@ PlotWidget {
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;nombre des employes:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-       <widget class="Line" name="line_4">
+       <widget class="Line" name="line_marwen4">
         <property name="geometry">
          <rect>
           <x>710</x>
@@ -2823,7 +2820,7 @@ PlotWidget {
          <enum>Qt::Vertical</enum>
         </property>
        </widget>
-       <widget class="Line" name="line_5">
+       <widget class="Line" name="line_marwen5">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -2905,11 +2902,11 @@ PlotWidget {
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_9">
+      <widget class="QWidget" name="tab_marwen_9">
        <attribute name="title">
         <string>supprimer département</string>
        </attribute>
-       <widget class="QLabel" name="label_15">
+       <widget class="QLabel" name="label_marwen_15">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -2920,19 +2917,6 @@ PlotWidget {
         </property>
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;id département :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="id_dep_supp">
-        <property name="geometry">
-         <rect>
-          <x>280</x>
-          <y>60</y>
-          <width>113</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
         </property>
        </widget>
        <widget class="QPushButton" name="pb_supp_dep">
@@ -2951,12 +2935,22 @@ PlotWidget {
          <string>supprimer</string>
         </property>
        </widget>
+       <widget class="QComboBox" name="comboBox_pp">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>60</y>
+          <width>111</width>
+          <height>26</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_3">
+    <widget class="QWidget" name="tab_marwen_3">
      <attribute name="title">
-      <string>gestion des congés</string>
+      <string>gestion des prime</string>
      </attribute>
      <widget class="QTabWidget" name="tabWidget_4">
       <property name="geometry">
@@ -2970,11 +2964,11 @@ PlotWidget {
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="tab_12">
+      <widget class="QWidget" name="tab_marwen_12">
        <attribute name="title">
-        <string>affecter un congé</string>
+        <string>affecter une prime</string>
        </attribute>
-       <widget class="QLabel" name="label_16">
+       <widget class="QLabel" name="label_marwen16">
         <property name="geometry">
          <rect>
           <x>50</x>
@@ -2985,61 +2979,6 @@ PlotWidget {
         </property>
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;id:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_17">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>180</y>
-          <width>171</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; font-style:italic;&quot;&gt;durée du congé&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="lineEdit_id_conge">
-        <property name="geometry">
-         <rect>
-          <x>220</x>
-          <y>80</y>
-          <width>113</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="lineEdit_dure_conge">
-        <property name="geometry">
-         <rect>
-          <x>220</x>
-          <y>190</y>
-          <width>113</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pb_affecter_conge">
-        <property name="geometry">
-         <rect>
-          <x>770</x>
-          <y>400</y>
-          <width>93</width>
-          <height>28</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color:rgb(0, 0, 0);color:rgb(255, 255, 255)</string>
-        </property>
-        <property name="text">
-         <string>valider congé</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_pic_3">
@@ -3055,29 +2994,52 @@ PlotWidget {
          <string/>
         </property>
        </widget>
-      </widget>
-      <widget class="QWidget" name="tab_13">
-       <attribute name="title">
-        <string> liste des congé</string>
-       </attribute>
-       <widget class="QTableView" name="tab_conge">
+       <widget class="QComboBox" name="comboBox_p">
         <property name="geometry">
          <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>971</width>
-          <height>471</height>
+          <x>170</x>
+          <y>80</y>
+          <width>111</width>
+          <height>26</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pb_prime">
+        <property name="geometry">
+         <rect>
+          <x>720</x>
+          <y>310</y>
+          <width>93</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>affecter prime</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_marwen13">
+       <attribute name="title">
+        <string> liste des prime</string>
+       </attribute>
+       <widget class="QTableView" name="tab_prime">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>941</width>
+          <height>431</height>
          </rect>
         </property>
        </widget>
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_2">
+    <widget class="QWidget" name="tab_marwen2">
      <attribute name="title">
       <string>employe du mois</string>
      </attribute>
-     <widget class="QLabel" name="label_18">
+     <widget class="QLabel" name="label_marwen18">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -3127,6 +3089,24 @@ PlotWidget {
       </property>
       <property name="text">
        <string/>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_marwen14">
+     <attribute name="title">
+      <string>time</string>
+     </attribute>
+     <widget class="QLabel" name="label_time">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>70</y>
+        <width>671</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:72pt;&quot;&gt;time&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </widget>

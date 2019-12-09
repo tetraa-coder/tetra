@@ -142,9 +142,7 @@ QSqlQueryModel * employe::afficher_conge(){
 /*QSqlQueryModel * employe::select_e()
 {
     QSqlQueryModel *model = new QSqlQueryModel();
-    QSqlDatabase db = QSqlDatabase::database();
-    //UPDATE tab_employe SET salaires = salaires + 500 WHERE (SELECT ID FROM tab_employe WHERE Checked='N' ORDER BY ID LIMIT 1);ORDER BY heures_s
-    model->setQuery("SELECT ID,NOM,PRENOM,HEURES,HEURES_S,SALAIRE FROM tab_employe ORDER BY heures",db);
+    model->setQuery("SELECT * FROM tab_employe ");
     model->setHeaderData(0,Qt::Horizontal,QObject::tr("ID"));
     model->setHeaderData(1,Qt::Horizontal,QObject::tr("NOM"));
     model->setHeaderData(2,Qt::Horizontal,QObject::tr("PRENOM"));
@@ -153,3 +151,13 @@ QSqlQueryModel * employe::afficher_conge(){
     model->setHeaderData(5,Qt::Horizontal,QObject::tr("SALAIRE"));
     return model;
 }*/
+QSqlQueryModel * employe::prime(const QString &id)
+{
+
+    QSqlQueryModel * model = new QSqlQueryModel();
+    model->setQuery("select nom,prenom,salaire+200 from tab_employe where(ID LIKE '"+id+"%')");
+    model->setHeaderData(0, Qt::Horizontal, QObject::tr("NOM"));
+    model->setHeaderData(1, Qt::Horizontal, QObject::tr("PRENOM"));
+    model->setHeaderData(2, Qt::Horizontal, QObject::tr("SALAIRE"));
+        return model;
+}

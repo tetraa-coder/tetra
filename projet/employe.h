@@ -26,6 +26,8 @@ public:
     bool supprimer(int);
    // bool affecter_conge(int id,employe e,int congex);
     QSqlQueryModel * select_e();
+    QSqlQueryModel * prime(const QString &id);
+
 private:
     int id;
     std::string nom;

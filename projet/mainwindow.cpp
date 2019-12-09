@@ -4,6 +4,9 @@
 #include <QDebug>
 #include <QMessageBox>
 #include "departement.h"
+#include <string.h>
+#include <QDateTime>
+//#include <QComboBox>
 
 
 
@@ -18,6 +21,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->label_pic2->setPixmap(pic);
     ui->label_pic_3->setPixmap(pic);
     ui->label_pic_4->setPixmap(pic);
+    timer = new QTimer(this);
+    connect(timer,SIGNAL(timeout()),this,SLOT(myfunction()));
+    timer->start(1000);
+
 
 }
 
@@ -27,18 +34,22 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_pb_ajouter_clicked()
-{
-    int id=ui->lineEdit_id->text().toInt();
-    std::string nom=ui->lineEdit_nom->text().toStdString();
-    std::string prenom=ui->lineEdit_prenom->text().toStdString();
+{bool test=false;
+    int id=ui->lineEdit_id_marwen->text().toInt();
+    std::string nom=ui->lineEdit_nom_marwen->text().toStdString();
+    std::string prenom=ui->lineEdit_prenom_marwen->text().toStdString();
     int heures=ui->lineEdit_h->text().toInt();
     int heures_s=ui->lineEdit_hs->text().toInt();
     int salaire=ui->lineEdit_salaire->text().toInt();
     employe e(id,nom,prenom,heures,heures_s,salaire);
-    bool test=e.ajouter();
+     if((heures>heures_s)&&(id>=0)&&(salaire<600)&&(salaire>100)){  test=e.ajouter();}
     if (test) {qDebug()<<"employe ajoute";
 
     ui->tab_employe->setModel(tmp_employe.afficher());
+    QSqlQueryModel *model = new QSqlQueryModel();
+    model->setQuery("select id from tab_employe");
+    ui->comboBox_ps->setModel(model);
+    ui->comboBox_p->setModel(model);
     QMessageBox::information(nullptr, QObject::tr("Ajouter un employe"),
                       QObject::tr("emlpoye ajouté.\n"
                                   "Click OK."), QMessageBox::Ok);
@@ -52,8 +63,11 @@ void MainWindow::on_pb_ajouter_clicked()
 }}
 
 void MainWindow::on_pb_supprimer_clicked()
-{
-    int id=ui->lineEdit_id_supp->text().toInt();
+{  QString id2=ui->comboBox_ps->currentText();
+   int id =id2.split(" ")[0].toInt();
+    qDebug()<<id;
+
+    //int id=ui->lineEdit_id_supp->text().toInt();
     bool test=tmp_employe.supprimer(id);
     if (test){qDebug()<<"employe supprimer";
        ui->tab_employe->setModel(tmp_employe.afficher());
@@ -102,17 +116,20 @@ void MainWindow::on_pb_modifier_clicked()
 
 
 void MainWindow::on_pb_ajouter_dep_clicked()
-{
+{ bool test=false;
     int id=ui->lineEdit_id_dep->text().toInt();
     std::string nom_chef=ui->lineEdit_chef_dep->text().toStdString();
     std::string nom_dep=ui->lineEdit_nom_dep->text().toStdString();
     int nbr=ui->lineEdit_nbr_employe_dep->text().toInt();
 
     departement d(nbr,id,nom_chef,nom_dep);
-    bool test=d.ajouter_dep();
+    if((id>=0)&&(nbr<=25)){ test=d.ajouter_dep();}
     if (test){ qDebug()<<"departement ajoute";
 
     ui->tab_departement->setModel(tmp_departement.afficher_dep());
+    QSqlQueryModel *model = new QSqlQueryModel();
+    model->setQuery("select id from tab_departement");
+    ui->comboBox_pp->setModel(model);
     QMessageBox::information(nullptr, QObject::tr("ajouter un departement"),
                       QObject::tr("departement ajouté.\n"
                                   "Click OK."), QMessageBox::Ok);
@@ -155,8 +172,10 @@ void MainWindow::on_pb_modif_dep_clicked()
 
 
 void MainWindow::on_pb_supp_dep_clicked()
-{
-    int id=ui->id_dep_supp->text().toInt();
+{QString id2=ui->comboBox_pp->currentText();
+    int id =id2.split(" ")[0].toInt();
+     qDebug()<<id;
+    //int id=ui->id_dep_supp->text().toInt();
     bool test=tmp_departement.supprimer_dep(id);
     if (test)
     { qDebug()<<"departement supprimré";
@@ -189,7 +208,35 @@ void MainWindow::on_pb_supp_dep_clicked()
 
 }*/
 
-/*void MainWindow::on_pb_afficher_employe_du_mois_clicked()
+void MainWindow::on_pb_afficher_employe_du_mois_clicked()
+{ QSqlQueryModel *model = new QSqlQueryModel();
+    model->setQuery("SELECT id,nom,prenom FROM tab_employe ORDER BY heures+heures_s DESC ");
+    model->setHeaderData(0,Qt::Horizontal,QObject::tr("ID"));
+    model->setHeaderData(1,Qt::Horizontal,QObject::tr("NOM"));
+    model->setHeaderData(2,Qt::Horizontal,QObject::tr("PRENOM"));
+    ui->tab_employe_du_mois->setModel(model);
+    qDebug()<<" yemchi";
+}
+void MainWindow::myfunction()
 {
-    ui->tab_employe_du_mois->setModel(tmp_employe.select_e());
-}*/
+    QTime time =QTime::currentTime();
+    QString time_text= time.toString("hh : mm : ss ");
+    if ((time.second()% 2)==0 ){
+      time_text[3]=' ' ;
+      time_text[8]=' ' ;
+
+
+    }
+    ui->label_time->setText(time_text);
+}
+
+
+void MainWindow::on_pb_prime_clicked()
+{QSqlQuery query;
+    QString id=ui->comboBox_p->currentText();
+     qDebug()<<id;
+     QMessageBox::information(nullptr, QObject::tr("prime"),
+                       QObject::tr("une prime de 200 dt a été effectuer.\n"
+                                   "Click OK."), QMessageBox::Ok);
+    ui->tab_prime->setModel(tmp_employe.prime(id));
+}
