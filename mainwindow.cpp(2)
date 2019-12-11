@@ -1,0 +1,563 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include "connexion.h"
+#include "vente.h"
+#include <QSpinBox>
+#include <QModelIndex>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QtWidgets>
+#include<QMessageBox>
+#include<QDesktopServices>
+#include<QPdfWriter>
+#include<QUrl>
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    ui->tabvente->setModel(tmpvente.afficher());
+
+    ui->comboBox_client->setModel(tmpclient.cafficher()) ;
+
+    ui->comboBox_client_mod->setModel(tmpclient.cafficher()) ;
+    this->setWindowTitle("Gestion des vente et des achat");
+
+    ui->tabachat->setModel(tmpachat.afficher());
+    ui->fr->setModel(tmpfournisseur.fafficher()) ;
+
+    ui->fr_2->setModel(tmpfournisseur.fafficher()) ;
+
+    int qtv = tmpvente.calculquantiter();
+    QString sqtv= QString::number(qtv);
+    ui->label_18->setText(sqtv);
+
+    int qta = tmpachat.calculquantiter();
+    QString sqta= QString::number(qta);
+    ui->label_20->setText(sqta);
+
+
+
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::on_pb_ajouter_clicked()
+{
+    int idp = ui->lineEdit_idp->text().toInt() ;
+    int vqt = ui->spinBoxqt->value() ;
+    QString client= ui->comboBox_client->currentText() ;
+    QDate vdate=ui->dateEdit->date();
+
+    Vente v(idp,vqt,client,vdate);
+  bool test=v.ajouter();
+
+      int qt = tmpvente.calculquantiter();
+      int fqt = qt+vqt ;
+      QSqlQuery query;
+      query.prepare("update QUANTITER set QTV=:res") ;
+      query.bindValue(":res", fqt);
+      query.exec();
+
+
+  if(test)
+{
+    ui->tabvente->setModel(tmpvente.afficher());//refresh
+
+
+
+QMessageBox::information(nullptr, QObject::tr("Ajouter une vente"),
+                  QObject::tr("Vente ajouter.\n"
+                              "Click Cancel to exit."), QMessageBox::Cancel);
+
+ui->ajouterv->hide();
+ui->afficherv->show();
+notifyIcon=new QSystemTrayIcon(this);
+        notifyIcon->setIcon(QIcon("C:/Users/ASUS/Desktop/projet/Nouveau dossier/projet 2/gestion_des_vente_et_achat/icon.png"));
+         notifyIcon->setVisible(true);
+         notifyIcon->show();
+             notifyIcon->show();
+                   notifyIcon->showMessage("Vente","Vente ajouter avec succé",QSystemTrayIcon::Information,5000);
+
+}
+  else
+  {
+      QMessageBox::critical(nullptr, QObject::tr("Ajouter une vente"),
+                  QObject::tr("Erreur !.\n"
+                              "Click Cancel to exit."), QMessageBox::Cancel);
+  notifyIcon=new QSystemTrayIcon(this);
+          notifyIcon->setIcon(QIcon("C:/Users/ASUS/Desktop/projet/Nouveau dossier/projet 2/gestion_des_vente_et_achat/icon.png"));
+           notifyIcon->setVisible(true);
+           notifyIcon->show();
+               notifyIcon->show();
+                     notifyIcon->showMessage("Vente","Impossible d'ajouter cette vante",QSystemTrayIcon::Information,5000);
+
+}
+}
+
+
+void MainWindow::on_pb_supprimer_clicked()
+{
+
+    QModelIndexList indexes = ui->tabvente->selectionModel()->selection().indexes();
+    for (int i = 0; i < indexes.count(); ++i)
+    {
+        QModelIndex index = indexes.at(i);
+        int in = index.row()+1;
+        // To get the row/column numbers use index.row() / index.column()
+
+        int aqt = tmpvente.qavant(in) ;
+        int qt = tmpvente.calculquantiter();
+        int fqt = qt-aqt ;
+        QSqlQuery query;
+        query.prepare("update QUANTITER set QTV=:res") ;
+        query.bindValue(":res", fqt);
+        query.exec();
+
+        bool test=tmpclient.supprimer(in);
+        if (test==true)
+          {
+            ui->tabvente->setModel(tmpclient.afficher());
+            QMessageBox::information(nullptr, QObject::tr("Suppression d'une vente"),
+                        QObject::tr("Vente supprimé.\n"
+                                   "Click Cancel to exit."), QMessageBox::Cancel);
+
+            notifyIcon=new QSystemTrayIcon(this);
+                    notifyIcon->setIcon(QIcon("C:/Users/ASUS/Desktop/projet/Nouveau dossier/projet 2/gestion_des_vente_et_achat/icon.png"));
+                     notifyIcon->setVisible(true);
+                     notifyIcon->show();
+                         notifyIcon->show();
+                               notifyIcon->showMessage("Vente","Vente supprimer avec succé",QSystemTrayIcon::Information,5000);
+
+        }
+        else{
+                QMessageBox::critical(nullptr, QObject::tr("Suppression d'une vente"),
+                        QObject::tr("Erreur vente non supprimer !.\n"
+                                   "Click Cancel to exit."), QMessageBox::Cancel);
+
+        notifyIcon=new QSystemTrayIcon(this);
+                notifyIcon->setIcon(QIcon("C:/Users/ASUS/Desktop/projet/Nouveau dossier/projet 2/gestion_des_vente_et_achat/icon.png"));
+                 notifyIcon->setVisible(true);
+                 notifyIcon->show();
+                     notifyIcon->show();
+                           notifyIcon->showMessage("Vente","Impossible de supprimer cette vante",QSystemTrayIcon::Information,5000);
+}
+}
+    }
+
+void MainWindow::on_pb_modifier_clicked()
+{
+   ui->afficherv->hide() ;
+   ui->modifierv->show();
+
+}
+
+
+void MainWindow::on_pb_ajouter_2_clicked()
+{
+    int ida = ui->idp2->text().toInt() ;
+    int aqt = ui->qt2->value() ;
+    QString fournisseur= ui->fr->currentText() ;
+    QDate adate=ui->date2->date();
+
+
+    Achat a(ida,aqt,fournisseur,adate);
+  bool test=a.ajouter();
+  int qt = tmpachat.calculquantiter();
+  int fqt = qt+aqt ;
+  QSqlQuery query;
+  query.prepare("update QUANTITER set QTA=:res") ;
+  query.bindValue(":res",fqt);
+  query.exec();
+
+  if(test)
+{
+
+
+    ui->tabvente->setModel(tmpachat.afficher());//refresh
+QMessageBox::information(nullptr, QObject::tr("Ajout d'un achat"),
+                  QObject::tr("Achat ajouter.\n"
+                              "Click Cancel to exit."), QMessageBox::Cancel);
+
+ui->afficherv_2->show();
+ui->ajouterv_2->hide();
+
+notifyIcon=new QSystemTrayIcon(this);
+        notifyIcon->setIcon(QIcon("C:/Users/ASUS/Desktop/projet/Nouveau dossier/projet 2/gestion_des_vente_et_achat/icon.png"));
+         notifyIcon->setVisible(true);
+         notifyIcon->show();
+             notifyIcon->show();
+                   notifyIcon->showMessage("Achat","Achat ajouté avec succé",QSystemTrayIcon::Information,5000);
+
+}
+  else
+{
+      QMessageBox::critical(nullptr, QObject::tr("Ajout d'un achat"),
+                  QObject::tr("Erreur !.\n"
+                              "Click Cancel to exit."), QMessageBox::Cancel);
+
+  notifyIcon=new QSystemTrayIcon(this);
+          notifyIcon->setIcon(QIcon("C:/Users/ASUS/Desktop/projet/Nouveau dossier/projet 2/gestion_des_vente_et_achat/icon.png"));
+           notifyIcon->setVisible(true);
+           notifyIcon->show();
+               notifyIcon->show();
+                     notifyIcon->showMessage("Achat","Impossible d'ajouter cette achat",QSystemTrayIcon::Information,5000);
+  }
+}
+
+
+
+void MainWindow::on_tabvente_activated(const QModelIndex &index)
+{
+
+
+    QString val= ui->tabvente->model()->data(index).toString();
+    QSqlQuery qry ;
+    qry.prepare("select * from VENTE where IDP='"+val+"' or VQT='"+val+"' or CLIENT='"+val+"' or VDATE='"+val+"'");
+    if (qry.exec())
+    {
+        while(qry.next())
+        {
+            ui->lineEdit_idp_mod->setText(qry.value(0).toString());
+            ui->spinBoxqt_2_mod->setValue(qry.value(1).toInt()) ;
+            ui->comboBox_client_mod->setCurrentText(qry.value(2).toString());
+            ui->dateEdit_mod->setDate(qry.value(3).toDate());
+
+        }
+        //ui->modifierv->show();
+    }
+
+}
+
+void MainWindow::on_pb_modifiervente_clicked()
+{
+
+    int idp = ui->lineEdit_idp_mod->text().toInt() ;
+    int vqt = ui->spinBoxqt_2_mod->value() ;
+    QString client= ui->comboBox_client_mod->currentText() ;
+    QDate vdate=ui->dateEdit_mod->date();
+
+
+    int qt = tmpvente.calculquantiter();
+    int fqt = qt-quantitermod ;
+    QSqlQuery query,query2;
+    query.prepare("update QUANTITER set QTV=:res") ;
+    query.bindValue(":res", fqt);
+    query.exec();
+
+    int qt2 = tmpvente.calculquantiter();
+    int fr = qt2 + vqt ;
+    query2.prepare("update QUANTITER set QTV=:res2");
+    query2.bindValue(":res2", fr);
+    query2.exec();
+
+
+    Vente m(idp,vqt,client,vdate);
+  bool test=m.vmodifier(idp);
+  if(test)
+{
+
+
+    ui->tabvente->setModel(tmpvente.afficher());//refresh
+QMessageBox::information(nullptr, QObject::tr("Modification d'une vente"),
+                  QObject::tr("Vente modifier.\n"
+                              "Click Cancel to exit."), QMessageBox::Cancel);
+notifyIcon=new QSystemTrayIcon(this);
+        notifyIcon->setIcon(QIcon("C:/Users/ASUS/Desktop/projet/Nouveau dossier/projet 2/gestion_des_vente_et_achat/icon.png"));
+         notifyIcon->setVisible(true);
+         notifyIcon->show();
+             notifyIcon->show();
+                   notifyIcon->showMessage("Vente","Vente modifier avec succé",QSystemTrayIcon::Information,5000);
+}
+  else
+  {
+
+      QMessageBox::critical(nullptr, QObject::tr("Modification d'une vente"),
+                  QObject::tr("Erreur !.\n"
+                              "Click Cancel to exit."), QMessageBox::Cancel);
+
+  notifyIcon=new QSystemTrayIcon(this);
+          notifyIcon->setIcon(QIcon("C:/Users/ASUS/Desktop/projet/Nouveau dossier/projet 2/gestion_des_vente_et_achat/icon.png"));
+           notifyIcon->setVisible(true);
+           notifyIcon->show();
+               notifyIcon->show();
+                     notifyIcon->showMessage("Vente","Impossible de modifier cette vante",QSystemTrayIcon::Information,5000);
+  }
+}
+
+void MainWindow::on_tabvente_clicked(const QModelIndex &index)
+{
+    QString val= ui->tabvente->model()->data(index).toString();
+    QSqlQuery qry ;
+    qry.prepare("select * from VENTE where IDP='"+val+"' or VQT='"+val+"' or CLIENT='"+val+"'");
+    if (qry.exec())
+    {
+        while(qry.next())
+        {
+            ui->lineEdit_idp_mod->setText(qry.value(0).toString());
+            ui->spinBoxqt_2_mod->setValue(qry.value(1).toInt()) ;
+            ui->comboBox_client_mod->setCurrentText(qry.value(2).toString());
+            ui->dateEdit_mod->setDate(qry.value(3).toDate());
+            quantitermod = qry.value(1).toInt() ;
+
+        }
+        //ui->modifierv->show();
+    }
+
+}
+
+void MainWindow::on_pb_modifier_pressed()
+{
+
+}
+
+void MainWindow::on_pb_modifier2_clicked()
+{
+
+       ui->afficherv_2->hide() ;
+       ui->modifiera->show();
+}
+
+void MainWindow::on_pb_supprimer_2_clicked()
+{
+    QModelIndexList indexes = ui->tabachat->selectionModel()->selection().indexes();
+    for (int i = 0; i < indexes.count(); ++i)
+    {
+        QModelIndex index = indexes.at(i);
+        int in = index.row()+1;
+        // To get the row/column numbers use index.row() / index.column()
+
+        int aqt = tmpachat.qavant(in) ;
+        int qt = tmpachat.calculquantiter();
+        int fqt = qt-aqt ;
+        QSqlQuery query;
+        query.prepare("update QUANTITER set QTA=:res") ;
+        query.bindValue(":res", fqt);
+        query.exec();
+
+        bool test=tmpachat.supprimer(in);
+
+        if (test==true)
+          {
+
+            ui->tabachat->setModel(tmpachat.afficher());
+            QMessageBox::information(nullptr, QObject::tr("Suppression d'un achat"),
+                        QObject::tr("Achat supprimé.\n"
+                                   "Click Cancel to exit."), QMessageBox::Cancel);
+
+
+            notifyIcon=new QSystemTrayIcon(this);
+                    notifyIcon->setIcon(QIcon("C:/Users/ASUS/Desktop/projet/Nouveau dossier/projet 2/gestion_des_vente_et_achat/icon.png"));
+                     notifyIcon->setVisible(true);
+                     notifyIcon->show();
+                         notifyIcon->show();
+                               notifyIcon->showMessage("Achat","Achat supprimer avec succé",QSystemTrayIcon::Information,5000);
+        }
+        else
+{
+                QMessageBox::critical(nullptr, QObject::tr("Suppression d'un achat"),
+                        QObject::tr("Erreur achat non supprimer !.\n"
+                                   "Click Cancel to exit."), QMessageBox::Cancel);
+
+        notifyIcon=new QSystemTrayIcon(this);
+                notifyIcon->setIcon(QIcon("C:/Users/ASUS/Desktop/projet/Nouveau dossier/projet 2/gestion_des_vente_et_achat/icon.png"));
+                 notifyIcon->setVisible(true);
+                 notifyIcon->show();
+                     notifyIcon->show();
+                     notifyIcon->showMessage("Achat","Impossible de supprimer cette achat",QSystemTrayIcon::Information,5000);
+        }
+}
+}
+
+void MainWindow::on_tabachat_activated(const QModelIndex &index)
+{
+
+    QString val= ui->tabachat->model()->data(index).toString();
+    QSqlQuery qry ;
+    qry.prepare("select * from ACHAT where IDA='"+val+"' or AQT='"+val+"' or FOURNISSEUR='"+val+"' or ADATE='"+val+"'");
+    if (qry.exec())
+    {
+        while(qry.next())
+        {
+            ui->idp2_2->setText(qry.value(0).toString());
+            ui->qt2_2->setValue(qry.value(1).toInt()) ;
+            ui->fr_2->setCurrentText(qry.value(2).toString());
+            ui->date2_2->setDate(qry.value(3).toDate());
+            quantitermoda = qry.value(1).toInt() ;
+
+        }
+        //ui->modifierv->show();
+    }
+
+}
+
+void MainWindow::on_pb_modifier2_2_clicked()
+{
+
+
+    int idp = ui->idp2_2->text().toInt() ;
+    int aqt = ui->qt2_2->value() ;
+    QString fournisseur= ui->fr_2->currentText() ;
+    QDate adate=ui->date2_2->date();
+
+    int qt = tmpachat.calculquantiter();
+    int fqt = qt-quantitermoda ;
+    QSqlQuery query,query2;
+    query.prepare("update QUANTITER set QTA=:res") ;
+    query.bindValue(":res", fqt);
+    query.exec();
+
+    int qt2 = tmpachat.calculquantiter();
+    int fr = qt2 + aqt ;
+    query2.prepare("update QUANTITER set QTA=:res2");
+    query2.bindValue(":res2", fr);
+    query2.exec();
+
+
+    Achat m(idp,aqt,fournisseur,adate);
+  bool test=m.amodifier(idp);
+  if(test)
+{
+                         ui->tabachat->setModel(tmpachat.afficher());
+
+QMessageBox::information(nullptr, QObject::tr("Modification d'un achat"),
+                  QObject::tr("Achat modifier.\n"
+                              "Click Cancel to exit."), QMessageBox::Cancel);
+
+notifyIcon=new QSystemTrayIcon(this);
+        notifyIcon->setIcon(QIcon("C:/Users/ASUS/Desktop/projet/Nouveau dossier/projet 2/gestion_des_vente_et_achat/icon.png"));
+         notifyIcon->setVisible(true);
+         notifyIcon->show();
+             notifyIcon->show();
+                   notifyIcon->showMessage("Achat","Achat modifier avec succé",QSystemTrayIcon::Information,5000);
+}
+  else{
+      QMessageBox::critical(nullptr, QObject::tr("Modification d'un achat"),
+                  QObject::tr("Erreur !.\n"
+                              "Click Cancel to exit."), QMessageBox::Cancel);
+      notifyIcon=new QSystemTrayIcon(this);
+              notifyIcon->setIcon(QIcon("C:/Users/ASUS/Desktop/projet/Nouveau dossier/projet 2/gestion_des_vente_et_achat/icon.png"));
+               notifyIcon->setVisible(true);
+               notifyIcon->show();
+                   notifyIcon->show();
+                         notifyIcon->showMessage("Achat","Impossible de modifier cette achat",QSystemTrayIcon::Information,5000);
+}
+
+}
+
+void MainWindow::on_tabachat_clicked(const QModelIndex &index)
+{
+    QString val= ui->tabachat->model()->data(index).toString();
+    QSqlQuery qry ;
+    qry.prepare("select * from ACHAT where IDA='"+val+"' or AQT='"+val+"' or FOURNISSEUR='"+val+"'");
+    if (qry.exec())
+    {
+        while(qry.next())
+        {
+            ui->idp2_2->setText(qry.value(0).toString());
+            ui->qt2_2->setValue(qry.value(1).toInt()) ;
+            ui->fr_2->setCurrentText(qry.value(2).toString());
+            ui->date2_2->setDate(qry.value(3).toDate());
+            quantitermoda = qry.value(1).toInt() ;
+
+        }
+        //ui->modifierv->show();
+    }
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+     ui->tabvente->setModel(tmpvente.trier());
+
+}
+
+void MainWindow::on_px_clicked()
+{
+    ui->tabachat->setModel(tmpachat.trier());
+}
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    ui->tabachat->setModel(tmpachat.afficher()) ;
+    int qt = tmpachat.calculquantiter();
+    QString sqt= QString::number(qt);
+    ui->label_20->setText(sqt);
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    ui->tabvente->setModel(tmpvente.afficher()) ;
+    int qt = tmpvente.calculquantiter();
+    QString sqt= QString::number(qt);
+    ui->label_18->setText(sqt);
+}
+
+
+
+
+
+void MainWindow::on_PDF_vente_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
+        if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+
+        QPrinter printer(QPrinter::PrinterResolution);
+        printer.setOutputFormat(QPrinter::PdfFormat);
+        printer.setPaperSize(QPrinter::A4);
+        printer.setOutputFileName(fileName);
+
+       QTextDocument doc;
+        QString sid = ui->lineEdit_idp->text() ;
+        QString sqt = ui->spinBoxqt->text() ;
+        QString sclient =ui->comboBox_client->currentText();
+        QString sdate=ui->dateEdit->date().toString();
+
+                doc.setHtml("<style> h2{color:red ; font-family: TimesNewRoman} h3{color:blue ; font-family: TimesNewRoman}</style> <h2>Information de vente</h2>\n <h3 color=red>Identidiant du produit :</h3>"+sid+"<h3>\n Quantiter du produit :</h3>"+sqt+"<h3>\n Client :</h3>"+sclient+"<h3>\n Date de vente :</h3>"+sdate);
+
+
+        doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
+        doc.print(&printer);
+
+
+}
+
+void MainWindow::on_PDF_achat_clicked()
+{
+
+    QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
+         if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+
+         QPrinter printer(QPrinter::PrinterResolution);
+         printer.setOutputFormat(QPrinter::PdfFormat);
+         printer.setPaperSize(QPrinter::A4);
+         printer.setOutputFileName(fileName);
+
+        QTextDocument doc;
+         QString sid = ui->idp2->text() ;
+         QString sqt = ui->qt2->text() ;
+         QString sfournisseur =ui->fr->currentText();
+         QString sdate=ui->date2->date().toString();
+
+                 doc.setHtml("<style> h1{color:red ; font-family: TimesNewRoman} h3{color:blue ; font-family: TimesNewRoman}</style> <h1>                  ~Information d'achat~                 </h1>\n"
+                     "<h3>Identidiant du produit :</h3>"+sid+"<h3>\n Quantiter du produit :</h3>"+sqt+"<h3>\n Fournisseur :</h3>"+sfournisseur+"<h3>\n Date d'achat :</h3>"+sdate);
+
+
+         doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
+         doc.print(&printer);
+
+}
+
+
+void MainWindow::on_pushButton_7_clicked()
+{
+    ui->tabachat->setModel(tmpachat.trier());
+}
+
+void MainWindow::on_trierachat_clicked()
+{
+    ui->tabachat->setModel(tmpfournisseur.trier());
+}
